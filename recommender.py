@@ -1,3 +1,6 @@
+import pandas as pd
+from sklearn.metrics.pairwise import cosine_similarity
+
 class MovieRecommender:
     def __init__(self, ratings_df, movies_df):
         self.ratings_df = ratings_df
@@ -18,7 +21,7 @@ class MovieRecommender:
 
         user_index = self.user_movie_matrix.index.get_loc(user_id)
         similarity_scores = list(enumerate(self.similarity_matrix[user_index]))
-        similarity_scores = sorted(similarity_scores, key=lambda x: x[1], reverse=True)
+        similarity_scores.sort(key=lambda x: x[1], reverse=True)
 
         similar_users = [i[0] for i in similarity_scores[1:6]]
 
@@ -27,7 +30,7 @@ class MovieRecommender:
             movies = self.user_movie_matrix.iloc[sim_user]
             recommended_movies.update(movies[movies > 0].index)
 
-        # Convert IDs → Names
         movie_titles = self.movies_df.set_index("movieId").loc[list(recommended_movies)]["title"].tolist()
-
         return movie_titles[:top_n]
+# Example usage:
+# ratings_df = pd.read_csv('ratings.csv')   
