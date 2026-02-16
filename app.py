@@ -1,42 +1,23 @@
-from flask import Flask, render_template, request
-from data_loader import load_data, create_user_item_matrix
-from recommender import Recommender
+import streamlit as st
+from data_loader import load_data
+from recommender import MovieRecommender
 
-app = Flask(__name__)
+st.set_page_config(page_title="Movie Recommender", page_icon="🎬")
 
-# Load data and initialize model once at startup
-ratings_df, movies_df = load_data()
-user_item_matrix = create_user_item_matrix(ratings_df)
-recommender = Recommender(user_item_matrix)
-recommender.compute_similarity()
+st.title("🎬 Movie Recommendation System")
+st.write("Get personalized movie suggestions using AI")
 
-@app.route('/')
-def index():
-    return render_template('index.html', movies=movies_df.to_dict('records'))
+ratings, movies = load_data("ratings.csv", "movies.csv")
+recommender = MovieRecommender(ratings, movies)
 
-@app.route('/recommend', methods=['POST'])
-def recommend():
-    try:
-        user_id = int(request.form['user_id'])
-        recommendations = recommender.get_user_recommendations(user_id)
-        
-        recommended_movies = []
-        if recommendations:
-            for movie_id in recommendations:
-                movie_info = movies_df[movies_df['MovieID'] == movie_id].iloc[0]
-                recommended_movies.append({
-                    'Title': movie_info['Title'],
-                    'Genres': movie_info['Genres']
-                })
-        
-        return render_template('index.html', 
-                             movies=movies_df.to_dict('records'),
-                             recommendations=recommended_movies,
-                             user_id=user_id)
-    except ValueError:
-        return render_template('index.html', 
-                             movies=movies_df.to_dict('records'),
-                             error="Invalid User ID")
+user_id = st.number_input("Enter User ID", min_value=1, step=1)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if st.button("🎥 Get Recommendations"):
+    results = recommender.recommend_movies(user_id)
+
+    if results:
+        st.success("Top Recommendations")
+        for movie in results:
+            st.write("⭐", movie)
+    else:
+        st.warning("No recommendations found.")

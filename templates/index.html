@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -26,41 +28,42 @@
         </section>
 
         {% if error %}
-            <div class="error-message">
-                <p>{{ error }}</p>
-            </div>
+        <div class="error-message">
+            <p>{{ error }}</p>
+        </div>
         {% endif %}
 
         {% if recommendations %}
-            <section class="results">
-                <h2>Recommended for User {{ user_id }}:</h2>
-                <ul class="movie-list">
-                    {% for movie in recommendations %}
-                        <li class="movie-card">
-                            <h3>{{ movie.Title }}</h3>
-                            <span class="genre">{{ movie.Genres }}</span>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </section>
+        <section class="results">
+            <h2>Recommended for User {{ user_id }}:</h2>
+            <ul class="movie-list">
+                {% for movie in recommendations %}
+                <li class="movie-card">
+                    <h3>{{ movie.Title }}</h3>
+                    <span class="genre">{{ movie.Genres }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
         {% elif user_id %}
-             <section class="results">
-                <p>No recommendations found for this user.</p>
-            </section>
+        <section class="results">
+            <p>No recommendations found for this user.</p>
+        </section>
         {% endif %}
 
         <section class="dataset-preview">
             <h2>Available Movies</h2>
             <div class="movie-grid">
                 {% for movie in movies %}
-                    <div class="movie-item">
-                        <strong>{{ movie.Title }}</strong>
-                        <br>
-                        <small>{{ movie.Genres }}</small>
-                    </div>
+                <div class="movie-item">
+                    <strong>{{ movie.Title }}</strong>
+                    <br>
+                    <small>{{ movie.Genres }}</small>
+                </div>
                 {% endfor %}
             </div>
         </section>
     </div>
 </body>
+
 </html>
