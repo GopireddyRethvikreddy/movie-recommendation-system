@@ -1,6 +1,6 @@
-movieId,title
-101,Inception
-102,Interstellar
-103,The Dark Knight
-104,Avengers: Endgame
-105,Titanic
+movieId,title,poster
+101,Inception,https://image.tmdb.org/t/p/w500/8IB2e4r4oVhHnANbnm7O3Tj6tF8.jpg
+102,Interstellar,https://image.tmdb.org/t/p/w500/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg
+103,The Dark Knight,https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg
+104,Avengers: Endgame,https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg
+105,Titanic,https://image.tmdb.org/t/p/w500/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg
